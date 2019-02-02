@@ -15,6 +15,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import com.example.demotodo.model.DBService;
+import com.example.demotodo.model.DataCrud;
 import com.example.demotodo.model.ICallBackInterface;
 import com.example.demotodo.model.ItemService;
 import com.example.demotodo.model.ItemVO;
@@ -24,7 +26,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ICallBackInterface, View.OnClickListener {
 
-    private ItemService itemService;
+    private DataCrud dataCrud;
+
     private ListAdapter adapter;
 
     @Override
@@ -42,8 +45,11 @@ public class MainActivity extends AppCompatActivity implements ICallBackInterfac
             }
         });
 
-        itemService = new ItemService(this);
-        itemService.get();
+        //dataCrud = new ItemService(this); // cia senas metodas per serveri
+        dataCrud = new DBService(this,this); // cia naujas metodas per DB
+        dataCrud.get();
+
+
     }
 
     @Override
@@ -66,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements ICallBackInterfac
                         ItemVO itemVO = new ItemVO();
                         itemVO.title=task;
                         itemVO.isDone=false;
-                        itemService.post(itemVO);
+                        dataCrud.post(itemVO);
 
                     }
                 })
@@ -106,11 +112,11 @@ public class MainActivity extends AppCompatActivity implements ICallBackInterfac
 
         switch (v.getId()) {
             case R.id.deleteBtn:
-                itemService.delete(itemVO);
+                dataCrud.delete(itemVO);
                 break;
             case R.id.checkbox:
                 itemVO.setDone(!itemVO.getDone());
-                itemService.put(itemVO);
+                dataCrud.put(itemVO);
                 break;
         }
     }
