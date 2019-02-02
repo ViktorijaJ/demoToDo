@@ -12,7 +12,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ItemService implements Callback<List<ItemVO>> {
+public class ItemService implements Callback<List<ItemVO>>, DataCrud{
     public static final String BASE_URL = "http://192.168.1.119:8080";
     ICallBackInterface objectWithOnSuccess; //polymorphism
     private ItemsRepository itemsRepository;
